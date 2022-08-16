@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-      :headers="tableInData.headers"
+      :headers="$props.paramInTable.headers"
       :items="data"
       sort-by="calories"
       class="elevation-1"
@@ -10,7 +10,7 @@
       <v-toolbar
           flat
       >
-        <v-toolbar-title>{{tableInData.title}}</v-toolbar-title>
+        <v-toolbar-title>{{$props.paramInTable.title}}</v-toolbar-title>
         <v-divider
             class="mx-4"
             inset
@@ -21,35 +21,47 @@
             v-model="dialog"
             max-width="500px"
         >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                color="primary"
+                dark
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
+            >
+              Добавить
+            </v-btn>
+          </template>
+          {{init}}
           <v-card>
             <v-card-title>
-              <span class="text-h5">{{tableInData.title}}</span>
+              <span class="text-h5">{{formTitle}}</span>
             </v-card-title>
 
             <v-card-text>
               <v-container>
                 <v-row>
                   <v-col
-                      v-for="(item, idx) in tableInData.showToEdit"
+                      v-for="(item, idx) in $props.paramInTable.showToEdit"
                       :key="idx"
                       cols="12"
                       :md="item.col"
                   >
                     <v-text-field
                         v-if="item.type === 'input'"
-                        v-model="tableInData.editedItem[item.value]"
+                        v-model="editedItem[item.value]"
                         :label="item.label"
                         outlined
                         dense
                     ></v-text-field>
                     <v-checkbox
                         v-if="item.type === 'checkbox'"
-                        v-model="tableInData.editedItem[item.value]"
+                        v-model="editedItem[item.value]"
                         :label="item.label"
                     ></v-checkbox>
                     <v-select
                         v-if="item.type === 'select'"
-                        v-model="tableInData.editedItem[item.value]"
+                        v-model="editedItem[item.value]"
                         :label="item.label"
                         outlined
                         dense
@@ -58,7 +70,8 @@
                     <v-textarea
                         v-if="item.type === 'textarea'"
                         outlined
-                        v-model="tableInData.editedItem[item.value]"
+                        hide-details
+                        v-model="editedItem[item.value]"
                         :label="item.label"
                     ></v-textarea>
                     <v-menu
@@ -73,7 +86,7 @@
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
-                            v-model="tableInData.editedItem[item.value]"
+                            v-model="editedItem[item.value]"
                             :label="item.label"
                             outlined
                             dense
@@ -83,7 +96,7 @@
                         ></v-text-field>
                       </template>
                       <v-date-picker
-                          v-model="tableInData.editedItem[item.value]"
+                          v-model="editedItem[item.value]"
                           @input="date['menu' + idx] = false"
                       ></v-date-picker>
                     </v-menu>
@@ -95,15 +108,15 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                  color="blue darken-1"
-                  text
+                  dark
+                  color="secondary"
                   @click="close"
               >
                 Отмена
               </v-btn>
               <v-btn
-                  color="blue darken-1"
-                  text
+                  dark
+                  color="success"
                   @click="save"
               >
                 Сохранить
@@ -113,10 +126,10 @@
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+            <v-card-title class="text-h5">Вы уверены что хотите удалить?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+              <v-btn color="blue darken-1" text @click="closeDelete">Отмена</v-btn>
               <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
@@ -154,14 +167,16 @@ export default {
   name: "CRUDTable",
   props: {
     dataTable: Array,
+    id: Number,
+    paramInTable: Object,
   },
   data: () => ({
     dialog: false,
     dialogDelete: false,
     data: [],
+    idForSave: '',
     editedIndex: -1,
-    // editedItem: {},
-    // defaultItem: {},
+    editedItem: {},
     date: {
       menu: false,
       menu1: false,
@@ -171,8 +186,6 @@ export default {
       menu5: false,
     },
   }),
-
-  inject: ['tableInData',],
 
   watch: {
     dialog (val) {
@@ -184,24 +197,33 @@ export default {
   },
 
   created () {
-    this.data = this.$props.dataTable
   },
-  mounted() {
+  computed: {
+    init() {
+      this.idForSave = this.$props.id
+      this.editedItem = this.$props.paramInTable.editedItem
+      this.data = this.$props.dataTable
+      return ''
+    },
+    formTitle () {
+      return this.editedIndex === -1 ? 'Добавить' : 'Изменить'
+    },
   },
   methods: {
     editItem (item) {
       this.editedIndex = this.data.indexOf(item)
-      this.tableInData.editedItem = Object.assign({}, item)
+      this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
     deleteItem (item) {
       this.editedIndex = this.data.indexOf(item)
-      this.tableInData.editedItem = Object.assign({}, item)
+      this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
     },
 
     deleteItemConfirm () {
+      this.$store.dispatch(this.$props.paramInTable.actions.deleteDispatch, this.data.splice(this.editedIndex, 1)[0].id)
       this.data.splice(this.editedIndex, 1)
       this.closeDelete()
     },
@@ -209,7 +231,7 @@ export default {
     close () {
       this.dialog = false
       this.$nextTick(() => {
-        this.tableInData.editedItem = Object.assign({}, this.defaultItem)
+        this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       })
     },
@@ -217,7 +239,7 @@ export default {
     closeDelete () {
       this.dialogDelete = false
       this.$nextTick(() => {
-        this.tableInData.editedItem = Object.assign({}, this.defaultItem)
+        this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       })
     },
@@ -225,8 +247,16 @@ export default {
     save () {
       if (this.editedIndex > -1) {
         Object.assign(this.data[this.editedIndex], this.editedItem)
+        this.$store.dispatch(this.$props.paramInTable.actions.putDispatch, Object.assign(this.data[this.editedIndex], this.editedItem))
       } else {
-        this.data.push(this.editedItem)
+        const data = {
+          id:  this.idForSave,
+          data: this.editedItem
+        }
+        this.$store.dispatch(this.$props.paramInTable.actions.postDispatch, data)
+            .then(r => {
+              this.data.push(r)
+            })
       }
       this.close()
     },

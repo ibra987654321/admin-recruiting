@@ -20,8 +20,9 @@
             v-model="dialog"
             max-width="800px"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template  v-slot:activator="{ on, attrs }">
             <v-btn
+                v-if="$props.postDispatch"
                 color="primary"
                 dark
                 class="mb-2"
@@ -32,16 +33,19 @@
             </v-btn>
           </template>
           <useDialogContent
-              title="Изменить"
+              :show="$props.showTableInTable"
+              :title="formTitle"
               :edit-block="$props.showToEdit"
               :edited-item="editedItem"
               :dataTable="tableData"
+              :id-for-table="idForLevelTable"
+              :param-in-data="$props.paramInData"
               @save="save($event)"
           />
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+            <v-card-title class="text-h5">Вы уверены что хотите удалить?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">Отммена</v-btn>
@@ -61,6 +65,7 @@
         mdi-pencil
       </v-icon>
       <v-icon
+          v-if="$props.deleteDispatch"
           small
           @click="deleteItem(item)"
       >
@@ -89,6 +94,9 @@ export default {
     putDispatch: String,
     deleteDispatch: String,
     postDispatch: String,
+    showTableInTable: Boolean,
+    nameObject: String,
+    paramInData: Object
   },
   data: () => ({
     dialog: false,
@@ -98,6 +106,8 @@ export default {
     editedItem: {},
     defaultItem: {},
     tableData: [],
+    idForLevelTable: 0,
+    id: '',
   }),
   watch: {
     dialog (val) {
@@ -110,19 +120,24 @@ export default {
       this.initialize()
     }
   },
-  inject: ['tableInData'],
   created () {
     this.initialize()
   },
   mounted() {
     this.editedItems = this.$props.editedItems
   },
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'Добавить' : 'Изменить'
+    },
+  },
   methods: {
     initialize() {
       this.$store.dispatch(this.$props.getDispatch).then(r => this.data =  r)
     },
     editItem (item) {
-      this.tableData = item[this.tableInData.nameObject]
+      this.idForLevelTable = item.id
+      this.tableData = item[this.$props.nameObject]
       this.editedIndex = this.data.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
@@ -163,7 +178,10 @@ export default {
         this.$store.dispatch(this.$props.putDispatch, Object.assign(this.data[this.editedIndex], this.editedItem))
       } else {
         this.$store.dispatch(this.$props.postDispatch, this.editedItem)
-        this.data.push(this.editedItem)
+            .then(r => {
+              r[this.$props.nameObject] = []
+              this.data.push(r)
+            })
       }
       this.close()
     },

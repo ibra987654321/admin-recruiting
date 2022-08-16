@@ -1,15 +1,33 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Question from '../views/QuestionsController.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'question',
     meta: {layout: 'main'},
-    component: HomeView
+    component: Question
+  },
+  {
+    path: '/message',
+    name: 'message',
+    meta: {layout: 'main'},
+    component: () => import('../views/MessageController.vue')
+  },
+  {
+    path: '/vacancy',
+    name: 'vacancy',
+    meta: {layout: 'main'},
+    component: () => import('../views/VacancyController.vue')
+  },
+  {
+    path: '/candidate',
+    name: 'candidate',
+    meta: {layout: 'main'},
+    component: () => import('../views/CandidateController.vue')
   },
   {
     path: '/login',

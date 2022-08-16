@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 
 import questions from "@/store/questions";
 import candidate from "@/store/candidate";
+import answers from "@/store/answers";
+import messages from "@/store/messages";
+import vacancy from "@/store/Vacancy";
 
 Vue.use(Vuex)
 
@@ -29,6 +32,9 @@ export default new Vuex.Store({
   },
   modules: {
     questions,
-    candidate
+    candidate,
+    answers,
+    messages,
+    vacancy
   }
 })

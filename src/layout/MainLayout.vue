@@ -6,23 +6,18 @@
       flat
   >
     <v-container class="py-0 fill-height">
-      <v-avatar
-          class="mr-10"
-          color="grey darken-1"
-          size="32"
-      ></v-avatar>
 
       <v-btn
-          v-for="link in links"
-          :key="link"
-          to="login"
+          v-for="(link, idx) in links"
+          :key="idx"
+          :to="link.to"
           text
       >
-        {{ link }}
+        {{ link.label }}
       </v-btn>
-      <v-btn @click="drawer = !drawer">
-        <v-icon>mdi-pan</v-icon>
-      </v-btn>
+<!--      <v-btn @click="drawer = !drawer">-->
+<!--        <v-icon>mdi-pan</v-icon>-->
+<!--      </v-btn>-->
       <v-spacer></v-spacer>
       <v-responsive max-width="260">
         <v-select
@@ -95,10 +90,11 @@ export default {
     drawer: false,
     select: 7,
     links: [
-      'Dashboard',
-      'Messages',
-      'Profile',
-      'Updates',
+      {label:'Вакансии', to: '/vacancy'},
+      {label:'Вопросы', to: '/'},
+      {label:'Навыки', to: '/'},
+      {label:'Сообщения', to: '/message'},
+      {label:'Кандидаты', to: '/candidate'},
     ],
   }),
   created() {

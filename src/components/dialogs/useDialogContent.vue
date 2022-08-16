@@ -20,6 +20,14 @@
               outlined
               dense
             ></v-text-field>
+            <v-text-field
+                v-if="item.type === 'input-number'"
+                v-model="editedItem[item.value]"
+                :label="item.label"
+                type="number"
+                outlined
+                dense
+            ></v-text-field>
             <v-checkbox
               v-if="item.type === 'checkbox'"
               v-model="editedItem[item.value]"
@@ -66,8 +74,13 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
-          <v-col cols="12">
-            <table-in-table :data-table="$props.dataTable"></table-in-table>
+          <v-col cols="12" v-if="$props.show">
+            <table-in-table
+                v-if="$props.title === 'Изменить'"
+                :id="$props.title === 'Изменить' ? $props.idForTable : ''"
+                :data-table="data"
+                :param-in-table="$props.paramInData"
+            ></table-in-table>
           </v-col>
         </v-row>
       </v-container>
@@ -76,16 +89,16 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
-        color="blue darken-1"
-        text
-        @click="close"
+          dark
+          color="secondary"
+          @click="close"
       >
         Отмена
       </v-btn>
       <v-btn
-        color="blue darken-1"
-        text
-        @click="save"
+          dark
+          color="success"
+          @click="save"
       >
         Сохранить
       </v-btn>
@@ -101,11 +114,13 @@ export default {
     tableInTable
   },
   props: {
+    show: Boolean,
     title: String,
     editedItem: Object,
     editBlock: Array,
-    addBlock: Object,
-    dataTable: Array
+    dataTable: Array,
+    paramInData: Object,
+    idForTable: Number,
   },
   data: () => ({
     date: {
@@ -117,6 +132,11 @@ export default {
       menu5: false,
     },
   }),
+  computed: {
+    data() {
+      return this.$props.dataTable
+    }
+  },
   methods: {
     save() {
       this.$emit('save', this.$props.editedItem)
