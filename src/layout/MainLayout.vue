@@ -6,15 +6,35 @@
       flat
   >
     <v-container class="py-0 fill-height">
-
-      <v-btn
+      <v-menu
+          transition="slide-y-transition"
+          bottom
           v-for="(link, idx) in links"
           :key="idx"
-          :to="link.to"
-          text
+          offset-y
+          rounded="large"
       >
-        {{ link.label }}
-      </v-btn>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+              text
+              v-bind="attrs"
+              v-on="on"
+              active-class="active"
+          >
+            {{ link.label }}
+          </v-btn>
+        </template>
+        <v-list dense>
+          <v-list-item
+              v-for="(item, i) in link.child"
+              :key="i"
+              link
+              :to="item.to"
+          >
+            <v-list-item-title>{{ item.label }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 <!--      <v-btn @click="drawer = !drawer">-->
 <!--        <v-icon>mdi-pan</v-icon>-->
 <!--      </v-btn>-->
@@ -37,37 +57,6 @@
   <v-main class="grey lighten-3">
     <v-container :fluid="drawer">
       <v-row>
-        <v-col cols="2">
-          <v-sheet rounded="lg">
-            <v-list color="transparent">
-              <v-list-item
-                  v-for="n in 5"
-                  :key="n"
-                  link
-              >
-                <v-list-item-content>
-                  <v-list-item-title>
-                    List Item {{ n }}
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-divider class="my-2"></v-divider>
-
-              <v-list-item
-                  link
-                  color="grey lighten-4"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>
-                    Refresh
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-sheet>
-        </v-col>
-
         <v-col>
           <v-sheet
               class="px-4 py-4"
@@ -88,13 +77,19 @@ export default {
   name: "MainLayout",
   data: () => ({
     drawer: false,
+    selectList: '',
     select: 7,
     links: [
-      {label:'Вакансии', to: '/vacancy'},
-      {label:'Вопросы', to: '/'},
-      {label:'Навыки', to: '/'},
-      {label:'Сообщения', to: '/message'},
-      {label:'Кандидаты', to: '/candidate'},
+      {label:'Вакансии', child: [{label:'Department', to: '/vacancy'}]},
+      {label:'Вопросы', child: [{label:'Список вопросов', to: '/'}]},
+      {label:'Навыки', child: [{label:'Навыки', to: '/knowledge'}]},
+      {label:'Сообщения', child: [{label:'Сообщения', to: '/message'}]},
+      {label:'Кандидаты', child: [
+          {label:'Хулиганы', to: '/candidate'},
+          {label:'Тип кандидата ', to: '/candidateType'},
+          {label:'Список кандидатов ', to: '/candidateList'}
+        ]
+      },
     ],
   }),
   created() {
@@ -106,6 +101,8 @@ export default {
       this.$store.state.candidateType_id = val
       this.$store.dispatch('getQuestionsTest')
     }
+  },
+  mounted() {
   }
 }
 </script>

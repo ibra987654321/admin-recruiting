@@ -34,12 +34,14 @@
           </template>
           <useDialogContent
               :show="$props.showTableInTable"
+              :show-child-table="showChildTableInTable"
               :title="formTitle"
               :edit-block="$props.showToEdit"
               :edited-item="editedItem"
               :dataTable="tableData"
               :id-for-table="idForLevelTable"
               :param-in-data="$props.paramInData"
+              :param-in-child-data="paramInChildData"
               @save="save($event)"
           />
         </v-dialog>
@@ -55,6 +57,17 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
+    </template>
+    <template v-slot:item.detail="{item}">
+      <v-btn
+      color="primary"
+      small
+      outlined
+      rounded
+      @click="$router.push('/candidateDetail/' + item.id)"
+      >
+        Подробнее
+      </v-btn>
     </template>
     <template v-slot:item.actions="{ item }">
       <v-icon
@@ -95,8 +108,10 @@ export default {
     deleteDispatch: String,
     postDispatch: String,
     showTableInTable: Boolean,
+    showChildTableInTable: Boolean,
     nameObject: String,
-    paramInData: Object
+    paramInData: Object,
+    paramInChildData: Object,
   },
   data: () => ({
     dialog: false,

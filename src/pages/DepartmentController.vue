@@ -1,7 +1,7 @@
 <template>
   <div>
     <CRUDTable
-        title="Вопросы для видео"
+        title="Настройки для Department"
         :headers="dataForDepartment.headers"
         :show-table-in-table="false"
         :show-to-edit="dataForDepartment.showToEdit"

@@ -37,9 +37,21 @@
               v-if="item.type === 'select'"
               v-model="editedItem[item.value]"
               :label="item.label"
+              :item-text="item.params.text"
+              :item-value="item.params.value"
               outlined
               dense
               :items="item.data"
+            ></v-select>
+            <v-select
+                v-if="item.type === 'select-add' && $props.title === item.edit"
+                v-model="editedItem[item.value]"
+                :label="item.label"
+                :item-text="item.params.text"
+                :item-value="item.params.value"
+                outlined
+                dense
+                :items="item.data"
             ></v-select>
             <v-textarea
                 v-if="item.type === 'textarea'"
@@ -76,10 +88,13 @@
           </v-col>
           <v-col cols="12" v-if="$props.show">
             <table-in-table
+                :title="formTitle"
                 v-if="$props.title === 'Изменить'"
                 :id="$props.title === 'Изменить' ? $props.idForTable : ''"
                 :data-table="data"
                 :param-in-table="$props.paramInData"
+                :param-in-child-data="paramInChildData"
+                :show-child="showChildTable"
             ></table-in-table>
           </v-col>
         </v-row>
@@ -115,11 +130,13 @@ export default {
   },
   props: {
     show: Boolean,
+    showChildTable: Boolean,
     title: String,
     editedItem: Object,
     editBlock: Array,
     dataTable: Array,
     paramInData: Object,
+    paramInChildData: Object,
     idForTable: Number,
   },
   data: () => ({
@@ -135,7 +152,10 @@ export default {
   computed: {
     data() {
       return this.$props.dataTable
-    }
+    },
+    formTitle () {
+      return this.editedIndex === -1 ? 'Добавить' : 'Изменить'
+    },
   },
   methods: {
     save() {

@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-      :headers="$props.paramInTable.headers"
+      :headers="$props.paramInChildTable.headers"
       :items="data"
       sort-by="calories"
       class="elevation-1"
@@ -10,7 +10,7 @@
       <v-toolbar
           flat
       >
-        <v-toolbar-title>{{$props.paramInTable.title}}</v-toolbar-title>
+        <v-toolbar-title>{{$props.paramInChildTable.title}}</v-toolbar-title>
         <v-divider
             class="mx-4"
             inset
@@ -42,7 +42,7 @@
               <v-container>
                 <v-row>
                   <v-col
-                      v-for="(item, idx) in $props.paramInTable.showToEdit"
+                      v-for="(item, idx) in $props.paramInChildTable.showToEdit"
                       :key="idx"
                       cols="12"
                       :md="item.col"
@@ -100,14 +100,6 @@
                           @input="date['menu' + idx] = false"
                       ></v-date-picker>
                     </v-menu>
-                  </v-col>
-                  <v-col cols="12" v-if="$props.showChild">
-                    <child-table
-                        v-if="$props.title === 'Изменить'"
-                        :id="idForChildSave"
-                        :child-data-table="tableData"
-                        :param-in-child-table="$props.paramInChildData"
-                    ></child-table>
                   </v-col>
                 </v-row>
               </v-container>
@@ -167,19 +159,14 @@
 </template>
 
 <script>
-import ChildTable from "@/components/tables/ChildTable";
 export default {
   components: {
-    ChildTable
   },
+  name: "ChildTable",
   props: {
-    title: String,
-    showChild: Boolean,
-    idForChildTable: Number,
-    dataTable: Array,
+    ChildDataTable: Array,
     id: Number,
-    paramInTable: Object,
-    paramInChildData: Object,
+    paramInChildTable: Object,
   },
   data: () => ({
     dialog: false,
@@ -188,8 +175,6 @@ export default {
     idForSave: '',
     editedIndex: -1,
     editedItem: {},
-    tableData: [],
-    idForChildSave: 0,
     date: {
       menu: false,
       menu1: false,
@@ -214,8 +199,8 @@ export default {
   computed: {
     init() {
       this.idForSave = this.$props.id
-      this.editedItem = this.$props.paramInTable.editedItem
-      this.data = this.$props.dataTable
+      this.editedItem = this.$props.paramInChildTable.editedItem
+      this.data = this.$props.ChildDataTable
       return ''
     },
     formTitle () {
@@ -224,10 +209,6 @@ export default {
   },
   methods: {
     editItem (item) {
-      this.idForChildSave = item.id
-      if (this.$props.showChild) {
-        this.tableData = item[this.$props.paramInChildData.nameObject]
-      }
       this.editedIndex = this.data.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
@@ -240,7 +221,7 @@ export default {
     },
 
     deleteItemConfirm () {
-      this.$store.dispatch(this.$props.paramInTable.actions.deleteDispatch, this.data.splice(this.editedIndex, 1)[0].id)
+      this.$store.dispatch(this.$props.paramInChildTable.actions.deleteDispatch, this.data.splice(this.editedIndex, 1)[0].id)
       this.data.splice(this.editedIndex, 1)
       this.closeDelete()
     },
@@ -264,13 +245,13 @@ export default {
     save () {
       if (this.editedIndex > -1) {
         Object.assign(this.data[this.editedIndex], this.editedItem)
-        this.$store.dispatch(this.$props.paramInTable.actions.putDispatch, Object.assign(this.data[this.editedIndex], this.editedItem))
+        this.$store.dispatch(this.$props.paramInChildTable.actions.putDispatch, Object.assign(this.data[this.editedIndex], this.editedItem))
       } else {
         const data = {
           id:  this.idForSave,
           data: this.editedItem
         }
-        this.$store.dispatch(this.$props.paramInTable.actions.postDispatch, data)
+        this.$store.dispatch(this.$props.paramInChildTable.actions.postDispatch, data)
             .then(r => {
               this.data.push(r)
             })

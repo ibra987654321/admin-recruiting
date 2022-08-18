@@ -1,7 +1,7 @@
 <template>
   <div>
     <CRUDTable
-        title="Вопросы для видео"
+        title="Сообщения"
         :headers="messageData.headers"
         :show-table-in-table="false"
         :show-to-edit="messageData.showToEdit"

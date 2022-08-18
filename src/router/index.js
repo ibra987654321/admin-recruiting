@@ -30,6 +30,30 @@ const routes = [
     component: () => import('../views/CandidateController.vue')
   },
   {
+    path: '/candidateType',
+    name: 'candidateType',
+    meta: {layout: 'main'},
+    component: () => import('../views/CandidateTypeController.vue')
+  },
+  {
+    path: '/candidateList',
+    name: 'candidateList',
+    meta: {layout: 'main'},
+    component: () => import('../pages/CandidateList.vue')
+  },
+  {
+    path: '/CandidateDetail/:id',
+    name: 'CandidateDetail',
+    meta: {layout: 'main'},
+    component: () => import('../pages/CandidateDetail.vue')
+  },
+  {
+    path: '/knowledge',
+    name: 'knowledge',
+    meta: {layout: 'main'},
+    component: () => import('../views/KnowledgeController.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     meta: {layout: 'empty'},
