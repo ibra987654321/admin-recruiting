@@ -2,6 +2,7 @@
 <div>
   <CRUDTable
       title="Список кандидатов"
+      :filters="filter"
       :headers="dataForCandidateList.headers"
       get-dispatch="getCandidateList"
   />
@@ -22,6 +23,9 @@ export default {
         { text: 'Дата регистрации', value: 'registration_Date' },
         { text: 'Действия ', value: 'detail' },
       ],
+    },
+    filter: {
+      date: 'registration_Date'
     }
   })
 }

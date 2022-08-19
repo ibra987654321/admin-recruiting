@@ -1,6 +1,7 @@
 <template>
 <div>
   <CRUDTable
+      :filters="filters"
       title="Тип кандидата"
       :headers="candidateType.headers"
       :show-table-in-table="false"
@@ -16,13 +17,15 @@
 
 <script>
 import CRUDTable from "@/components/tables/CRUDTable";
-import {required} from "vuelidate/lib/validators"
 export default {
   name: "CandidateTypeController",
   components: {
     CRUDTable,
   },
   data:() => ({
+    filters: {
+      checkbox: ['internal', 'active']
+    },
     candidateType: {
       headers: [
         { text: '№', value: 'id' },

@@ -1,49 +1,63 @@
 <template>
   <v-card
       class="mx-auto "
-      max-width="500"
   >
-    <v-card-title>Специалист оперативного обслуживания</v-card-title>
+    <v-card-title class="text-wrap">{{ data.candidateType.candidateType }}</v-card-title>
 
     <v-card-text>
       <div>
-        Бишкек
+        {{ data.candidateType.city }}
       </div>
       <div>
-        Первая линия
+        {{ data.candidateType.department.name }}
       </div>
       <div>
-        Вечерние
+        {{ data.schedule }}
       </div>
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
 
-    <v-card-title>Дата регистрации</v-card-title>
+    <v-card-title>Комментарии</v-card-title>
 
     <v-card-text>
-      <v-chip-group
-          active-class="deep-purple accent-4 white--text"
-          column
-      >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-      </v-chip-group>
+      <div v-if="data.comment === null">Нет комментариев</div>
+      <div v-else>{{ data.comment }}</div>
     </v-card-text>
 
-    <v-divider class="mx-4"></v-divider>
+    <v-divider class=""></v-divider>
 
     <v-card-text>
-      <div>Дата приглашение</div>
-      <div>Комментарии</div>
+      <div>
+        Дата регистрации
+        <v-chip
+          outlined
+          color="info"
+        >
+          {{ data.registrationDate}}
+        </v-chip>
+      </div>
+      <div class="mt-3">
+        Дата приглашение
+        <v-chip
+          outlined
+          color="info"
+        >
+          {{data.invitationDate === null ? 'Еще не приглашен' : data.invitationDate}}
+        </v-chip>
+      </div>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 export default {
-  name: "DetailedInformation"
+  name: "DetailedInformation",
+  computed: {
+    data() {
+      return this.$store.state.candidate.detailedData
+    }
+  }
 }
 </script>
 

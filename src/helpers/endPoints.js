@@ -1,6 +1,7 @@
 export const QUESTION = '/question'
 export const ANSWER = '/answer'
 export const LEVEL = '/level'
+export const VIDEO = '/video'
 export const MESSAGE = '/message'
 export const DEPARTMENT = '/department'
 export const HOOLIGAN = '/hooligan'

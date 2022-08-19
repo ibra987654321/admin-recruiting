@@ -58,6 +58,15 @@
         </v-dialog>
       </v-toolbar>
     </template>
+    <template v-if="dateFilter" v-slot:[`item.${$props.filters.date}`]="{item}">
+        {{item[$props.filters.date] | date}}
+    </template>
+    <template v-if="checkFilter" v-for="(check, idx) in $props.filters.checkbox"  v-slot:[`item.${check}`]="{item}">
+      <v-checkbox
+          disabled
+          v-model="item[$props.filters.checkbox[idx]]"
+      ></v-checkbox>
+    </template>
     <template v-slot:item.detail="{item}">
       <v-btn
       color="primary"
@@ -110,6 +119,7 @@ export default {
     showTableInTable: Boolean,
     showChildTableInTable: Boolean,
     nameObject: String,
+    filters: Object,
     paramInData: Object,
     paramInChildData: Object,
   },
@@ -145,6 +155,20 @@ export default {
     formTitle () {
       return this.editedIndex === -1 ? 'Добавить' : 'Изменить'
     },
+    dateFilter() {
+      if (this.$props.filters) {
+        if (this.$props.filters.date) {
+          return this.$props.filters.date
+        }
+      }
+    },
+    checkFilter() {
+      if (this.$props.filters) {
+        if (this.$props.filters.checkbox) {
+          return this.$props.filters.checkbox
+        }
+      }
+    }
   },
   methods: {
     initialize() {

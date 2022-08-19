@@ -1,6 +1,7 @@
 import {deleteAxios, getAxios, postAxios, putAxios} from "@/helpers/helpers";
 import {environment} from "@/environments/environment";
 import {CANDIDATE, CANDIDATE_TYPE, DEPARTMENT, HOOLIGAN} from "@/helpers/endPoints";
+import dateFilter from "@/filters/dateFilter";
 
 export default  {
     state: {
@@ -13,7 +14,15 @@ export default  {
                 name: ''
             },
             questionnaire: []
-        }
+        },
+        detailedData: {
+            candidateType: {
+                candidateType: '',
+                department: {}
+            },
+        },
+        videoResultData: [],
+        testResultData: [],
     },
     actions: {
         getCandidateTypes(store) {
@@ -123,9 +132,17 @@ export default  {
                     store.state.profileData.birthday = r.birthday
                     store.state.profileData.address = r.address
                     store.state.profileData.gender = r.gender
+                    store.state.profileData.status = r.status
                     store.state.secondaryData.experience = r.experience
                     store.state.secondaryData.education = r.education
                     store.state.secondaryData.questionnaire = r.questionnaire
+                    store.state.detailedData.candidateType = r.candidateType
+                    store.state.detailedData.comment = r.comment
+                    store.state.detailedData.invitationDate = r.invitationDate !== null ? dateFilter(r.invitationDate) : null
+                    store.state.detailedData.schedule = r.schedule
+                    store.state.detailedData.registrationDate = dateFilter(r.registrationDate)
+                    store.state.videoResultData = r.videoResults
+                    store.state.testResultData = r.tests
                 })
                 .catch(e => store.commit('setSnackbars', e.message))
         },

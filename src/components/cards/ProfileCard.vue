@@ -18,8 +18,9 @@
                 <v-chip-group
                     active-class="deep-purple accent-4 white--text"
                     column
+                    class="ml-5"
                 >
-                  <v-chip >Статус</v-chip>
+                  <v-chip color="primary">{{ data.status }}</v-chip>
                 </v-chip-group>
               </div>
 
@@ -86,5 +87,7 @@ export default {
 </script>
 
 <style scoped>
-
+.font-size {
+  font-size: 28px;
+}
 </style>

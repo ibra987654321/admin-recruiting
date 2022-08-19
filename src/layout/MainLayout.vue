@@ -80,7 +80,7 @@ export default {
     selectList: '',
     select: 7,
     links: [
-      {label:'Вакансии', child: [{label:'Department', to: '/vacancy'}]},
+      {label:'Вакансии', child: [{label:'Отделение', to: '/vacancy'}]},
       {label:'Вопросы', child: [{label:'Список вопросов', to: '/'}]},
       {label:'Навыки', child: [{label:'Навыки', to: '/knowledge'}]},
       {label:'Сообщения', child: [{label:'Сообщения', to: '/message'}]},

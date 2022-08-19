@@ -21,7 +21,7 @@
             v-model="dialog"
             max-width="500px"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template  v-if="!$props.videoParam" v-slot:activator="{ on, attrs }">
             <v-btn
                 color="primary"
                 dark
@@ -145,6 +145,36 @@
         </v-dialog>
       </v-toolbar>
     </template>
+    <template v-if="checkFilter" v-for="(check, idx) in $props.filters.checkbox"  v-slot:[`item.${check}`]="{item}">
+      <v-checkbox
+          disabled
+          v-model="item[$props.filters.checkbox[idx]]"
+      ></v-checkbox>
+    </template>
+    <template v-if="dateFilter" v-slot:[`item.${$props.filters.date}`]="{item}">
+      {{item[$props.filters.date] | date}}
+    </template>
+    <template v-slot:item.download="{item}">
+      <v-btn
+          v-if="item.videoName !== 'Removed'"
+          color="info"
+          small
+          outlined
+          rounded
+          @click="download(item.id, item.videoName)"
+      >
+        Скачать
+      </v-btn>
+      <v-btn
+          v-else
+          small
+          outlined
+          rounded
+          disabled
+      >
+        Удалено
+      </v-btn>
+    </template>
     <template v-slot:item.actions="{ item }">
       <v-icon
           small
@@ -177,7 +207,9 @@ export default {
     showChild: Boolean,
     idForChildTable: Number,
     dataTable: Array,
+    filters: Object,
     id: Number,
+    videoParam: Object,
     paramInTable: Object,
     paramInChildData: Object,
   },
@@ -221,6 +253,20 @@ export default {
     formTitle () {
       return this.editedIndex === -1 ? 'Добавить' : 'Изменить'
     },
+    dateFilter() {
+      if (this.$props.filters) {
+        if (this.$props.filters.date) {
+          return this.$props.filters.date
+        }
+      }
+    },
+    checkFilter() {
+      if (this.$props.filters) {
+        if (this.$props.filters.checkbox) {
+          return this.$props.filters.checkbox
+        }
+      }
+    }
   },
   methods: {
     editItem (item) {
@@ -261,19 +307,33 @@ export default {
       })
     },
 
+    download(id, name) {
+      const data ={
+        id: id,
+        name: name
+      }
+      this.$store.dispatch('getVideoResult', data)
+    },
+
     save () {
       if (this.editedIndex > -1) {
-        Object.assign(this.data[this.editedIndex], this.editedItem)
-        this.$store.dispatch(this.$props.paramInTable.actions.putDispatch, Object.assign(this.data[this.editedIndex], this.editedItem))
-      } else {
-        const data = {
-          id:  this.idForSave,
-          data: this.editedItem
-        }
-        this.$store.dispatch(this.$props.paramInTable.actions.postDispatch, data)
-            .then(r => {
-              this.data.push(r)
-            })
+          if (!this.$props.videoParam) {
+            Object.assign(this.data[this.editedIndex], this.editedItem)
+            this.$store.dispatch(this.$props.paramInTable.actions.putDispatch, Object.assign(this.data[this.editedIndex], this.editedItem))
+          } else {
+            this.$store.dispatch(this.$props.paramInTable.actions.postDispatch,this.editedItem)
+          }
+        } else {
+          const data = {
+            id:  this.idForSave,
+            data: this.editedItem
+          }
+          this.$store.dispatch(this.$props.paramInTable.actions.postDispatch, data)
+              .then(r => {
+                this.data.push(r)
+              })
+
+
       }
       this.close()
     },

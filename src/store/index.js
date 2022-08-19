@@ -7,6 +7,7 @@ import answers from "@/store/answers";
 import messages from "@/store/messages";
 import vacancy from "@/store/Vacancy";
 import knowledges from "@/store/knowledges";
+import videoResult from "@/store/videoResult";
 
 Vue.use(Vuex)
 
@@ -37,6 +38,7 @@ export default new Vuex.Store({
     answers,
     messages,
     vacancy,
-    knowledges
+    knowledges,
+    videoResult
   }
 })
