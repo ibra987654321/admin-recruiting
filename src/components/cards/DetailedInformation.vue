@@ -6,14 +6,17 @@
 
     <v-card-text>
       <div>
-        {{ data.candidateType.city }}
+        <div>
+          {{ data.candidateType.city }}
+        </div>
+        <div>
+          {{ data.candidateType.department.name }}
+        </div>
+        <div>
+          {{ data.schedule }}
+        </div>
       </div>
-      <div>
-        {{ data.candidateType.department.name }}
-      </div>
-      <div>
-        {{ data.schedule }}
-      </div>
+      <setsDialog/>
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
@@ -21,6 +24,32 @@
     <v-card-title>Комментарии</v-card-title>
 
     <v-card-text>
+      <v-dialog
+          v-model="dialog"
+          max-width="800px"
+      >
+        <template  v-slot:activator="{ on, attrs }">
+          <v-btn
+              color="info"
+              dark
+              small
+              outlined
+              class="mb-2"
+              v-bind="attrs"
+              v-on="on"
+          >
+            Добавить
+          </v-btn>
+        </template>
+        <useDialogContent
+            :show="false"
+            :show-child-table="false"
+            title="Изменить"
+            :edit-block="showToEdit"
+            :edited-item="editedItem"
+            @save="save($event)"
+        />
+      </v-dialog>
       <div v-if="data.comment === null">Нет комментариев</div>
       <div v-else>{{ data.comment }}</div>
     </v-card-text>
@@ -51,11 +80,37 @@
 </template>
 
 <script>
+import useDialogContent from "@/components/dialogs/useDialogContent";
+import setsDialog from "@/components/dialogs/SetsDialog";
 export default {
   name: "DetailedInformation",
+  components: {
+    useDialogContent,
+    setsDialog,
+  },
+  data: () => ({
+    dialog: false,
+    editedItem: {
+      comment: '',
+    },
+    showToEdit: [
+      { value: 'comment', label: 'Комментарий', type: 'textarea', col: '12' },
+    ],
+  }),
   computed: {
     data() {
       return this.$store.state.candidate.detailedData
+    }
+  },
+  methods: {
+    async save(e) {
+      await this.$store.dispatch('putCommentCandidate', e.comment)
+          .then(() => {
+            this.$store.state.candidate.detailedData.comment = e.comment
+            this.dialog = false
+          })
+          .catch(e => this.$store.commit('setSnackbars', 'Что то пошло не так'))
+
     }
   }
 }

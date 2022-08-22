@@ -23,6 +23,9 @@ export default  {
         },
         videoResultData: [],
         testResultData: [],
+        invitationDate: '',
+        status: '',
+        gender: ''
     },
     actions: {
         getCandidateTypes(store) {
@@ -116,7 +119,9 @@ export default  {
         getCandidateList(store) {
             return getAxios(`${environment.testAPI + CANDIDATE}/allCandidates/${store.rootState.candidateType_id}`)
                 .then(r => r)
-                .catch(e => store.commit('setSnackbars', e.message))
+                .catch(e => {
+                    e.request.status ? store.commit('setSnackbars', 'Нет данных') : store.commit('setSnackbars', e.message)
+                })
         },
         // END  List of candidate ---------
 
@@ -136,9 +141,10 @@ export default  {
                     store.state.secondaryData.experience = r.experience
                     store.state.secondaryData.education = r.education
                     store.state.secondaryData.questionnaire = r.questionnaire
+                    store.state.detailedData.id = r.id
                     store.state.detailedData.candidateType = r.candidateType
                     store.state.detailedData.comment = r.comment
-                    store.state.detailedData.invitationDate = r.invitationDate !== null ? dateFilter(r.invitationDate) : null
+                    store.state.detailedData.invitationDate = r.invitationDate
                     store.state.detailedData.schedule = r.schedule
                     store.state.detailedData.registrationDate = dateFilter(r.registrationDate)
                     store.state.videoResultData = r.videoResults
@@ -146,6 +152,28 @@ export default  {
                 })
                 .catch(e => store.commit('setSnackbars', e.message))
         },
+
+        putStatusCandidate(store, payload) {
+            return putAxios(`${environment.testAPI + CANDIDATE}/setStatus/${store.state.detailedData.id}?status=${payload}`)
+                .then(() => store.commit('setSnackbars', 'Успешно изменено'))
+                .catch(e => store.commit('setSnackbars', e.message))
+        },
+        putGenderCandidate(store, payload) {
+            return putAxios(`${environment.testAPI + CANDIDATE}/setGender/${store.state.detailedData.id}?gender=${payload}`)
+                .then(() => store.commit('setSnackbars', 'Успешно изменено'))
+                .catch(e => store.commit('setSnackbars', e.message))
+        },
+        putInvitationDateCandidate(store, payload) {
+            const date = payload.slice(0, 10)
+            return putAxios(`${environment.testAPI + CANDIDATE}/setInvitationDate/${store.state.detailedData.id}?invitationDate=${date}`)
+                .then(() => store.commit('setSnackbars', 'Успешно изменено'))
+                .catch(e => store.commit('setSnackbars', e.message))
+        },
+        putCommentCandidate(store, payload) {
+            return putAxios(`${environment.testAPI + CANDIDATE}/comment/${store.state.detailedData.id}?comment=${payload}`)
+                .then(() => store.commit('setSnackbars', 'Успешно добавлено'))
+                .catch(e => store.commit('setSnackbars', e.message))
+        }
         // END  Detail of candidate ---------
     }
 }

@@ -14,7 +14,7 @@
               {{data.name}} <br> {{data.surname}}
               <br>
               <div class="d-flex align-center justify-md-space-between">
-                <p class="subtitle-1 mb-0">{{data.gender ? 'Мужчина' : 'Женщина'}}</p>
+                <p class="subtitle-1 mb-0">{{data.gender}}</p>
                 <v-chip-group
                     active-class="deep-purple accent-4 white--text"
                     column
@@ -81,8 +81,16 @@ export default {
   computed: {
     data() {
       return this.$store.state.candidate.profileData
+    },
+    gender() {
+      return this.$store.state.candidate.profileData.gender
     }
   },
+  watch: {
+    '$store.state.candidate.profileData.gender'() {
+      return this.$store.state.candidate.profileData.gender
+    }
+  }
 }
 </script>
 

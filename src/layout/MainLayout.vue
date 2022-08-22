@@ -19,6 +19,7 @@
               text
               v-bind="attrs"
               v-on="on"
+              :class="links[idx].child.map(i => i.to === $router.currentRoute.path ? 'active' : null)"
               active-class="active"
           >
             {{ link.label }}
@@ -110,5 +111,8 @@ export default {
 <style scoped>
 .v-sheet.v-list, .v-sheet {
   box-shadow: 0 2px 6px 0 rgb(67 89 113 / 12%);
+}
+.active {
+  background-color: #e0dfdf;
 }
 </style>

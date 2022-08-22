@@ -9,3 +9,4 @@ export default function dateFilter(value) {
     return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
 
 }
+
