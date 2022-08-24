@@ -173,7 +173,8 @@ export default  {
             return putAxios(`${environment.testAPI + CANDIDATE}/comment/${store.state.detailedData.id}?comment=${payload}`)
                 .then(() => store.commit('setSnackbars', 'Успешно добавлено'))
                 .catch(e => store.commit('setSnackbars', e.message))
-        }
+        },
         // END  Detail of candidate ---------
+
     }
 }

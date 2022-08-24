@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="12" md="8">
+    <v-col cols="12" >
       <DepartmentController/>
     </v-col>
   </v-row>

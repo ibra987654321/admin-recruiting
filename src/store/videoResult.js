@@ -1,6 +1,7 @@
-import {deleteAxios, getAxios, postAxios} from "@/helpers/helpers";
+import {deleteAxios, getAxios, getToken, postAxios} from "@/helpers/helpers";
 import {environment} from "@/environments/environment";
 import {HOOLIGAN, VIDEO} from "@/helpers/endPoints";
+import axios from "axios";
 
 export  default  {
     state: {},
@@ -13,7 +14,6 @@ export  default  {
                     fileLink.setAttribute('download', `${payload.name}.mp4`);
                     document.body.appendChild(fileLink);
                     fileLink.click();
-
                 })
                 .catch(e => store.commit('setSnackbars', e.message))
         },

@@ -5,7 +5,7 @@
       color="white"
       flat
   >
-    <v-container class="py-0 fill-height">
+    <v-container class="py-0 fill-height d-flex">
       <v-menu
           transition="slide-y-transition"
           bottom
@@ -25,7 +25,7 @@
             {{ link.label }}
           </v-btn>
         </template>
-        <v-list dense>
+        <v-list >
           <v-list-item
               v-for="(item, i) in link.child"
               :key="i"
@@ -36,11 +36,12 @@
           </v-list-item>
         </v-list>
       </v-menu>
+
 <!--      <v-btn @click="drawer = !drawer">-->
 <!--        <v-icon>mdi-pan</v-icon>-->
 <!--      </v-btn>-->
       <v-spacer></v-spacer>
-      <v-responsive max-width="260">
+      <v-responsive max-width="260" class="mr-4">
         <v-select
             v-model="select"
             :items="$store.state.candidateType"
@@ -52,6 +53,7 @@
             outlined
         ></v-select>
       </v-responsive>
+      <Avatar/>
     </v-container>
   </v-app-bar>
 
@@ -74,8 +76,13 @@
 </template>
 
 <script>
+import Avatar from "@/components/cards/Avatar";
+
 export default {
   name: "MainLayout",
+  components: {
+    Avatar
+  },
   data: () => ({
     drawer: false,
     selectList: '',
@@ -91,6 +98,7 @@ export default {
           {label:'Список кандидатов ', to: '/candidateList'}
         ]
       },
+      {label:'Прочее', child: [{label:'Логи', to: '/logs'}, {label:'Обратная связь', to: '/feedback'}]},
     ],
   }),
   created() {
@@ -103,8 +111,7 @@ export default {
       this.$store.dispatch('getQuestionsTest')
     }
   },
-  mounted() {
-  }
+
 }
 </script>
 

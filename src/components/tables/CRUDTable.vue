@@ -43,6 +43,7 @@
               :param-in-data="$props.paramInData"
               :param-in-child-data="paramInChildData"
               @save="save($event)"
+              @close="close"
           />
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">

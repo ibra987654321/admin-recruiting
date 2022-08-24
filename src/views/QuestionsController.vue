@@ -78,7 +78,6 @@ import CRUDTable from "@/components/tables/CRUDTable";
         },
         showToEdit: [
           { value: 'questionText', label: 'Текст', type: 'textarea', col: '12' },
-          { value: 'milliseconds', label: 'Секунды', type: 'input-number', col: '12' },
         ],
         paramInData: {
           nameObject: 'answers',
@@ -91,10 +90,12 @@ import CRUDTable from "@/components/tables/CRUDTable";
           editedItem: {
             content: '',
             correct: '',
+            key: ''
           },
           showToEdit: [
             { value: 'content', label: 'Текст', type: 'textarea', col: '12' },
-            { value: 'correct', label: 'Правильность', type: 'checkbox', col: '12' },
+            { value: 'correct', label: 'Правильность', type: 'checkbox', col: '6' },
+            { value: 'key', label: 'Ключевой', type: 'checkbox', col: '6' },
           ],
           actions: {
             putDispatch: 'putAnswer',
@@ -114,11 +115,11 @@ import CRUDTable from "@/components/tables/CRUDTable";
           id: '',
           questionText: '',
           questionType: 'TEST',
-          milliseconds: Number,
+          seconds: Number,
         },
         showToEdit: [
           { value: 'questionText', label: 'Текст', type: 'textarea', col: '12' },
-          { value: 'milliseconds', label: 'Секунды', type: 'input-number', col: '12' },
+          { value: 'seconds', label: 'Секунды', type: 'input-number', col: '12' },
         ],
       }
     }),

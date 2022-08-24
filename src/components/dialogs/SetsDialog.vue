@@ -29,14 +29,11 @@
                 dense
                 label="Пол"
                 hide-details
-                required
-                @input="$v.gender.$touch()"
-                :error-messages="genderErrors"
               >
               </v-select>
             </v-col>
             <v-col cols="12">
-              <DateTimePicker :error="dateErrors"/>
+              <DateTimePicker/>
             </v-col>
             <v-col cols="12">
               <v-select
@@ -56,10 +53,10 @@
               text
               @click="dialog.value = false"
           >Закрыть</v-btn>
-          <v-btn
-              text
-              @click="save"
-          >Сохранить</v-btn>
+<!--          <v-btn-->
+<!--              text-->
+<!--              @click="save"-->
+<!--          >Сохранить</v-btn>-->
         </v-card-actions>
       </v-card>
     </template>
@@ -131,15 +128,15 @@ export default {
     },
   },
   methods: {
-    save() {
-      if (this.$v.$invalid) {
-        console.log('not')
-        this.$v.$touch();
-        return;
-      }
-      console.log('yes')
-
-    }
+    // save() {
+    //   if (this.$v.$invalid) {
+    //     console.log('not')
+    //     this.$v.$touch();
+    //     return;
+    //   }
+    //   console.log('yes')
+    //
+    // }
   }
 }
 </script>

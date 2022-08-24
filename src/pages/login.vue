@@ -8,7 +8,7 @@
         <v-card-text class="d-flex flex-column justify-space-around">
           <v-form>
             <v-text-field
-                v-model="form.login"
+                v-model="form.username"
                 label="Логин"
                 outlined
                 type="text"
@@ -33,14 +33,13 @@ export default {
   name: "login",
   data: () => ({
     form: {
-      login: '',
+      username: '',
       password:'',
     }
   }),
   methods: {
     submit() {
-      console.log(this.form)
-      this.$router.push({name: 'home'})
+      this.$store.dispatch('login', this.form)
     }
   }
 }
