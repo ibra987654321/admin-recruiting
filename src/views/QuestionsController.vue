@@ -43,10 +43,10 @@
             :show-table-in-table="false"
             :show-to-edit="dataForVideo.showToEdit"
             :edited-items="dataForVideo.editedItem"
-            get-dispatch="getQuestionsTest"
-            post-dispatch="postQuestionsTest"
-            put-dispatch="putQuestionsTest"
-            delete-dispatch="deleteQuestionsTest"
+            get-dispatch="getQuestionsVideo"
+            post-dispatch="postQuestionsVideo"
+            put-dispatch="putQuestionsVideo"
+            delete-dispatch="deleteQuestionsVideo"
         />
       </v-tab-item>
     </v-tabs-items>
