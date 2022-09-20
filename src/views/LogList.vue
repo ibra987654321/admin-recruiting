@@ -12,7 +12,6 @@
       @change="changeType()"
     ></v-select>
     <tableInTable
-        title="Все действия"
         :param-in-table="params"
         :data-table="data"
         :filters="filters"

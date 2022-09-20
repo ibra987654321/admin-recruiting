@@ -1,7 +1,7 @@
 <template>
   <div>
     <CRUDTable
-        title="Настройки для Отделение"
+        title="Настройки для Отделений"
         :headers="dataForDepartment.headers"
         :show-table-in-table="false"
         :show-to-edit="dataForDepartment.showToEdit"
@@ -24,7 +24,6 @@ export default {
   data:() => ({
     dataForDepartment: {
       headers: [
-        { text: '№', value: 'id' },
         { text: 'Название', value: 'name' },
         { text: 'Действия ', value: 'actions' },
       ],

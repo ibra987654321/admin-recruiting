@@ -6,8 +6,10 @@ import {knowledgetype} from "@/models/knoledgeType.dto";
 import {knowledge} from "@/models/knowledge.dto";
 import {department} from "@/models/department.dto";
 import {candidatetype} from "@/models/candidateType.dto";
+import {signIn} from "@/models/singIn.dto";
 
 export const logsDto = {
+    'sign-in': signIn,
     level: level,
     question: question,
     message: message,

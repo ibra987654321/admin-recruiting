@@ -27,6 +27,7 @@ export default new Vuex.Store({
     },
     selectLogType: 'level',
     itemsLogType: [
+      {text: 'Вход/Выход', value: 'sign-in'},
       {text: 'Уровни', value: 'level'},
       {text: 'Вопросы', value: 'question'},
       {text: 'Ответы', value: 'answer'},

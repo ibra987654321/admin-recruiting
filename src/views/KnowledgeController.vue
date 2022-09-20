@@ -28,7 +28,6 @@ export default {
   data: () => ({
     dataForKnowledge: {
       headers: [
-        { text: '№', value: 'id' },
         { text: 'Название', value: 'name' },
         { text: 'Действия ', value: 'actions' },
       ],
@@ -42,7 +41,6 @@ export default {
         nameObject: 'knowledgeList',
         title: 'Навыки',
         headers: [
-          { text: '№', value: 'id' },
           { text: 'Название', value: 'knowledgeName' },
           { text: 'Действия ', value: 'actions' },
         ],
@@ -62,7 +60,6 @@ export default {
         nameObject: 'levels',
         title: 'Уровни',
         headers: [
-          { text: '№', value: 'id' },
           { text: 'Название', value: 'name' },
           { text: 'Действия ', value: 'actions' },
         ],

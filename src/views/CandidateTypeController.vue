@@ -28,7 +28,6 @@ export default {
     },
     candidateType: {
       headers: [
-        { text: '№', value: 'id' },
         { text: 'Наименование', value: 'candidateType' },
         { text: 'Внутренний', value: 'internal' },
         { text: 'Город', value: 'city' },

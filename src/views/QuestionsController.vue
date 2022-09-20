@@ -114,12 +114,12 @@ import CRUDTable from "@/components/tables/CRUDTable";
         editedItem: {
           id: '',
           questionText: '',
-          questionType: 'TEST',
-          seconds: Number,
+          questionType: 'VIDEO',
+          milliseconds: Number,
         },
         showToEdit: [
           { value: 'questionText', label: 'Текст', type: 'textarea', col: '12' },
-          { value: 'seconds', label: 'Секунды', type: 'input-number', col: '12' },
+          { value: 'milliseconds', label: 'Секунды', type: 'input-number', col: '12' },
         ],
       }
     }),
