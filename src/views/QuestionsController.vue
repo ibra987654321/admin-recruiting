@@ -74,10 +74,12 @@ import CRUDTable from "@/components/tables/CRUDTable";
           id: '',
           questionText: '',
           questionType: 'TEST',
-          milliseconds: Number,
+          seconds: Number,
+          key: Boolean,
         },
         showToEdit: [
           { value: 'questionText', label: 'Текст', type: 'textarea', col: '12' },
+          { value: 'key', label: 'Ключевой', type: 'checkbox', col: '12' },
         ],
         paramInData: {
           nameObject: 'answers',
@@ -95,7 +97,6 @@ import CRUDTable from "@/components/tables/CRUDTable";
           showToEdit: [
             { value: 'content', label: 'Текст', type: 'textarea', col: '12' },
             { value: 'correct', label: 'Правильность', type: 'checkbox', col: '6' },
-            { value: 'key', label: 'Ключевой', type: 'checkbox', col: '6' },
           ],
           actions: {
             putDispatch: 'putAnswer',

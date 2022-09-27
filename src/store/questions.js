@@ -42,7 +42,7 @@ export default {
             const data = {
                 questionText: payload.questionText,
                 key: payload.key,
-                milliseconds: payload.milliseconds
+                seconds: payload.milliseconds
             }
             return putAxios(`${environment.testAPI + QUESTION}/update/${payload.id}`, data)
                 .then(() => store.commit('setSnackbars', 'Успешно изменено'))

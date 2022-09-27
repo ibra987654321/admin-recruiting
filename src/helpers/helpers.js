@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "@/router";
 
 export const getToken = () => localStorage.getItem('token-admin')
 
@@ -18,6 +19,12 @@ export const getAxios = (url) => {
             Authorization: `Bearer ${getToken()}`,
         },
     }).then(r => r.data)
+        .catch(e => {
+            if (e.response.status === 401) {
+                removeToken()
+                router.push({name: 'login'})
+            }
+        })
     return data
 }
 export const postAxios = (url, payload) => {
