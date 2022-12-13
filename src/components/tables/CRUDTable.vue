@@ -51,7 +51,7 @@
             <v-card-title class="text-h5">Вы уверены что хотите удалить?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Отммена</v-btn>
+              <v-btn color="blue darken-1" text @click="closeDelete">Отмена</v-btn>
               <v-btn color="blue darken-1" text @click="deleteItemConfirm">Ок</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
@@ -189,9 +189,9 @@ export default {
       this.dialogDelete = true
     },
 
-    deleteItemConfirm () {
-      this.$store.dispatch(this.$props.deleteDispatch, this.data.splice(this.editedIndex, 1)[0].id)
-      this.data.splice(this.editedIndex, 1)
+    async deleteItemConfirm () {
+      await this.$store.dispatch(this.$props.deleteDispatch, this.data.splice(this.editedIndex, 1)[0].id)
+      this.$store.dispatch(this.$props.getDispatch).then(r => this.data =  r)
       this.closeDelete()
 
     },

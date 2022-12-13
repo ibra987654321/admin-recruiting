@@ -49,7 +49,7 @@
       <itemList
         icon="mdi-calendar"
         :text="data.birthday"
-        label="Дата рождение"
+        label="Дата рождения"
       />
 
       <v-divider inset></v-divider>
@@ -64,7 +64,7 @@
       <itemList
           icon="mdi-map-marker"
           :text="data.address"
-          label="Место проживание"
+          label="Место проживания"
       />
 
     </v-list>

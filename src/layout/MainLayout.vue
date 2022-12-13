@@ -89,13 +89,13 @@ export default {
     select: 7,
     links: [
       {label:'Вакансии', child: [{label:'Отделение', to: '/vacancy'}]},
-      {label:'Вопросы', child: [{label:'Список вопросов', to: '/'}]},
+      {label:'Вопросы', child: [{label:'Список вопросов', to: '/question'}]},
       {label:'Навыки', child: [{label:'Навыки', to: '/knowledge'}]},
       {label:'Сообщения', child: [{label:'Сообщения', to: '/message'}]},
       {label:'Кандидаты', child: [
           {label:'Хулиганы', to: '/candidate'},
           {label:'Тип кандидата ', to: '/candidateType'},
-          {label:'Список кандидатов ', to: '/candidateList'}
+          {label:'Список кандидатов ', to: '/'}
         ]
       },
       {label:'Прочее', child: [{label:'Логи', to: '/logs'}, {label:'Обратная связь', to: '/feedback'}]},

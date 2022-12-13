@@ -123,6 +123,20 @@ export default  {
                     e.request.status ? store.commit('setSnackbars', 'Нет данных') : store.commit('setSnackbars', e.message)
                 })
         },
+        getFailedCandidates(store) {
+            return getAxios(`${environment.testAPI + CANDIDATE}/allFailedCandidates/${store.rootState.candidateType_id}`)
+                .then(r => r)
+                .catch(e => {
+                    e.request.status ? store.commit('setSnackbars', 'Нет данных') : store.commit('setSnackbars', e.message)
+                })
+        },
+        getCandidatesOnVideoByType(store) {
+            return getAxios(`${environment.testAPI + CANDIDATE}/allCandidatesOnVideoByType/${store.rootState.candidateType_id}`)
+                .then(r => r)
+                .catch(e => {
+                    e.request.status ? store.commit('setSnackbars', 'Нет данных') : store.commit('setSnackbars', e.message)
+                })
+        },
         // END  List of candidate ---------
 
         // Detail of candidate ---------
@@ -147,7 +161,7 @@ export default  {
                     store.state.detailedData.invitationDate = r.invitationDate
                     store.state.detailedData.schedule = r.schedule
                     store.state.detailedData.registrationDate = dateFilter(r.registrationDate)
-                    store.state.videoResultData = r.videoResults
+                    store.state.videoResultData = r.videoResults ? r.videoResults : []
                     store.state.testResultData = r.tests
                 })
                 .catch(e => store.commit('setSnackbars', e.message))

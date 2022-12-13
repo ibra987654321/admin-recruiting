@@ -10,6 +10,22 @@ export const removeToken = () => {
     localStorage.removeItem('token-admin')
 }
 
+export const setCandidateType = token => {
+    localStorage.setItem('candidateType', token)
+}
+export const removeCandidateType = () => {
+    localStorage.removeItem('candidateType')
+}
+
+export const getTabs = () => localStorage.getItem('tabs')
+
+export const setTabs = token => {
+    localStorage.setItem('tabs', token)
+}
+export const removeTabs = () => {
+    localStorage.removeItem('tabs')
+}
+
 export const getAxios = (url) => {
     const data = axios({
         method: 'GET',
@@ -20,10 +36,11 @@ export const getAxios = (url) => {
         },
     }).then(r => r.data)
         .catch(e => {
-            if (e.response.status === 401) {
-                removeToken()
+            // console.log(e)
+            // if (e.response.status == 401) {
+            //     removeToken()
                 router.push({name: 'login'})
-            }
+            // }
         })
     return data
 }

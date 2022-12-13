@@ -59,6 +59,13 @@
                 v-model="editedItem[item.value]"
                 :label="item.label"
             ></v-textarea>
+            <v-textarea
+                v-if="item.type === 'textarea-rules'"
+                outlined
+                v-model="editedItem[item.value]"
+                :label="item.label"
+                :rules="[v => v.length <= item.rules || `Максимум ${item.rules} символов`]"
+            ></v-textarea>
             <v-menu
               v-if="item.type === 'date'"
               :key="'menu' + idx"

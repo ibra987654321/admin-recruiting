@@ -14,11 +14,18 @@ import videoResult from "@/store/videoResult";
 
 import {environment} from "@/environments/environment";
 import {FEEDBACK, LOG, LOGS} from "@/helpers/endPoints";
+import {Admin, Audit, Expert, Obuchenie} from "@/helpers/roles";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    roles: {
+      Admin,
+      Obuchenie,
+      Expert,
+      Audit
+    },
     loading: false,
     snackbars: {
       multiLine: true,
@@ -56,7 +63,11 @@ export default new Vuex.Store({
             await router.push({path: '/'})
             store.commit('setSnackbars', 'Добро пожаловать в Админку')
           })
-          .catch(e => store.commit('setSnackbars', e.message))
+          .catch(e => {
+            if (e.response.status == 401) {
+              store.commit('setSnackbars', 'Неправильный логин или пароль!')
+          }
+      })
     },
     getLogs(store) {
       return getAxios(`${environment.testAPI + LOGS}/${store.state.selectLogType}`)

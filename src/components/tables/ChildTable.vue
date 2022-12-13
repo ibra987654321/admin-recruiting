@@ -200,7 +200,9 @@ export default {
     init() {
       this.idForSave = this.$props.id
       this.editedItem = this.$props.paramInChildTable.editedItem
-      this.data = this.$props.ChildDataTable
+      if (this.$props.ChildDataTable !== null) {
+        this.data = this.$props.ChildDataTable
+      }
       return ''
     },
     formTitle () {

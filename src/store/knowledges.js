@@ -37,7 +37,6 @@ export default {
 
         // CRUD for knowledge----------
         postKnowledge(store, payload) {
-            console.log(payload)
             const data = {
                 knowledgeName: payload.data.knowledgeName,
                 knowledgeType_id: payload.id

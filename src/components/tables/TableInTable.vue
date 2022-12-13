@@ -2,7 +2,6 @@
   <v-data-table
       :headers="$props.paramInTable.headers"
       :items="data"
-      sort-by="calories"
       class="elevation-1"
       :no-data-text="'Данных нет'"
   >
@@ -103,7 +102,7 @@
                   </v-col>
                   <v-col cols="12" v-if="$props.showChild">
                     <child-table
-                        v-if="$props.title === 'Изменить'"
+                        v-if="formTitle === 'Изменить'"
                         :id="idForChildSave"
                         :child-data-table="tableData"
                         :param-in-child-table="$props.paramInChildData"
@@ -241,8 +240,6 @@ export default {
     },
   },
 
-  created () {
-  },
   computed: {
     init() {
       this.idForSave = this.$props.id
@@ -287,7 +284,7 @@ export default {
 
     deleteItemConfirm () {
       this.$store.dispatch(this.$props.paramInTable.actions.deleteDispatch, this.data.splice(this.editedIndex, 1)[0].id)
-      this.data.splice(this.editedIndex, 1)
+      // this.data.splice(this.editedIndex, 1)
       this.closeDelete()
     },
 

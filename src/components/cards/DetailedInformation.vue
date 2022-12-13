@@ -48,6 +48,7 @@
             :edit-block="showToEdit"
             :edited-item="editedItem"
             @save="save($event)"
+            @close="dialog = false"
         />
       </v-dialog>
       <div v-if="data.comment === null">Нет комментариев</div>
@@ -67,7 +68,7 @@
         </v-chip>
       </div>
       <div class="mt-3">
-        Дата приглашение
+        Дата приглашения
         <v-chip
           outlined
           color="info"
@@ -94,7 +95,7 @@ export default {
       comment: '',
     },
     showToEdit: [
-      { value: 'comment', label: 'Комментарий', type: 'textarea', col: '12' },
+      { value: 'comment', label: 'Комментарий', type: 'textarea-rules', col: '12', rules: 300 },
     ],
   }),
   computed: {
