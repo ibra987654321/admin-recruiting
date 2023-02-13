@@ -2,7 +2,7 @@
 <div>
   <CRUDTable
       :filters="filters"
-      title="Тип кандидата"
+      title="Вакансии"
       :headers="candidateType.headers"
       :show-table-in-table="false"
       :show-to-edit="candidateType.showToEdit"
@@ -39,13 +39,11 @@ export default {
         internal: Boolean,
         active: Boolean,
         city: '',
-        teamType: '',
-        departmentId: Number
+        teamTypeId: Number
       },
       showToEdit: [
         { value: 'candidateType', label: 'Наименование', type: 'input', col: '12' },
         { value: 'city', label: 'Город', type: 'input', col: '6' },
-        { value: 'teamType', label: 'Тип группы', type: 'input', col: '6' },
         { value: 'internal', label: 'Внутренний', type: 'checkbox', col: '6' },
         { value: 'active', label: 'Активные', type: 'checkbox', col: '6' },
       ],
@@ -53,10 +51,10 @@ export default {
     selectData: []
   }),
   mounted() {
-    this.$store.dispatch('getDepartment').then(r => {
+    this.$store.dispatch('getGroup').then(r => {
       const data =  {
-        value: 'departmentId',
-        label: 'Отделение',
+        value: 'teamTypeId',
+        label: 'Группы',
         type: 'select-add',
         params:{ text: 'name', value: 'id'},
         data: r,

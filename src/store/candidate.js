@@ -6,7 +6,8 @@ import dateFilter from "@/filters/dateFilter";
 export default  {
     state: {
         profileData: {
-            name: ''
+            name: '',
+            status: '',
         },
         secondaryData: {
             education: '',
@@ -18,10 +19,17 @@ export default  {
         detailedData: {
             candidateType: {
                 candidateType: '',
-                department: {}
+                city: '',
+                teamType: {
+                    toEducate: Boolean,
+                    department: {
+                        name: ''
+                    },
+                }
             },
         },
         videoResultData: [],
+        essayResultData: [],
         testResultData: [],
         invitationDate: '',
         status: '',
@@ -48,9 +56,8 @@ export default  {
                 candidateType: payload.candidateType,
                 internal: payload.internal,
                 active: payload.active,
-                departmentId: payload.departmentId,
+                teamTypeId: payload.teamTypeId,
                 city: payload.city,
-                teamType: payload.teamType
             }
             return postAxios(`${environment.testAPI + CANDIDATE_TYPE}/save`, data)
                 .then((r) => {
@@ -88,6 +95,7 @@ export default  {
         postHooligan(store, payload) {
             const data = {
                 name: payload.name,
+                surname: payload.surname,
                 birthday: payload.birthday,
                 reason: payload.reason,
             }
@@ -101,6 +109,7 @@ export default  {
         putHooligan(store, payload) {
             const data = {
                 name: payload.name,
+                surname: payload.surname,
                 birthday: payload.birthday,
                 reason: payload.reason,
             }
@@ -131,7 +140,7 @@ export default  {
                 })
         },
         getCandidatesOnVideoByType(store) {
-            return getAxios(`${environment.testAPI + CANDIDATE}/allCandidatesOnVideoByType/${store.rootState.candidateType_id}`)
+            return getAxios(`${environment.testAPI + CANDIDATE}/allCandidatesOnInterviewByType/${store.rootState.candidateType_id}`)
                 .then(r => r)
                 .catch(e => {
                     e.request.status ? store.commit('setSnackbars', 'Нет данных') : store.commit('setSnackbars', e.message)
@@ -143,6 +152,7 @@ export default  {
         getCandidateDetail(store, id) {
             return getAxios(`${environment.testAPI + CANDIDATE}/get/${id}`)
                 .then(r =>{
+                    store.rootState.detailData = r
                     store.state.profileData.name = r.name
                     store.state.profileData.surname = r.surname
                     store.state.profileData.phoneNumber = r.phoneNumber
@@ -158,29 +168,23 @@ export default  {
                     store.state.detailedData.id = r.id
                     store.state.detailedData.candidateType = r.candidateType
                     store.state.detailedData.comment = r.comment
-                    store.state.detailedData.invitationDate = r.invitationDate
+                    store.state.detailedData.invitationDate = r.invitationDate ? r.invitationDate : null
                     store.state.detailedData.schedule = r.schedule
                     store.state.detailedData.registrationDate = dateFilter(r.registrationDate)
+                    store.state.essaysResultData = r.essays.length ? r.essays : []
                     store.state.videoResultData = r.videoResults ? r.videoResults : []
                     store.state.testResultData = r.tests
+                    return r
                 })
                 .catch(e => store.commit('setSnackbars', e.message))
         },
 
         putStatusCandidate(store, payload) {
-            return putAxios(`${environment.testAPI + CANDIDATE}/setStatus/${store.state.detailedData.id}?status=${payload}`)
-                .then(() => store.commit('setSnackbars', 'Успешно изменено'))
-                .catch(e => store.commit('setSnackbars', e.message))
-        },
-        putGenderCandidate(store, payload) {
-            return putAxios(`${environment.testAPI + CANDIDATE}/setGender/${store.state.detailedData.id}?gender=${payload}`)
-                .then(() => store.commit('setSnackbars', 'Успешно изменено'))
-                .catch(e => store.commit('setSnackbars', e.message))
-        },
-        putInvitationDateCandidate(store, payload) {
-            const date = payload.slice(0, 10)
-            return putAxios(`${environment.testAPI + CANDIDATE}/setInvitationDate/${store.state.detailedData.id}?invitationDate=${date}`)
-                .then(() => store.commit('setSnackbars', 'Успешно изменено'))
+            return putAxios(`${environment.testAPI + CANDIDATE}/setStatus/${store.state.detailedData.id}`, payload)
+                .then((r) => {
+                    store.state.profileData.status = r.status
+                    store.commit('setSnackbars', 'Успешно изменено')
+                })
                 .catch(e => store.commit('setSnackbars', e.message))
         },
         putCommentCandidate(store, payload) {

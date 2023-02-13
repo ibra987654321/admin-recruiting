@@ -10,7 +10,7 @@ export default {
                .catch(e => store.commit('setSnackbars', e.message))
         },
         getQuestionsVideo(store) {
-            return getAxios(`${environment.testAPI + QUESTION}/questionsForVideo/${store.rootState.candidateType_id}`)
+            return getAxios(`${environment.testAPI + QUESTION}/questionsForInterview/${store.rootState.candidateType_id}`)
                 .then(r => r)
                 .catch(e => store.commit('setSnackbars', e.message))
         },
@@ -32,7 +32,7 @@ export default {
                 candidateType_id: store.rootState.candidateType_id,
                 seconds: Number(payload.milliseconds)
             }
-            return postAxios(`${environment.testAPI + QUESTION}/saveToVideo`, data)
+            return postAxios(`${environment.testAPI + QUESTION}/saveToInterview`, data)
                 .then((r) => {
                     store.commit('setSnackbars', 'Успешно добавлено')
                     return r
@@ -65,7 +65,7 @@ export default {
                 .catch(e => store.commit('setSnackbars', e.message))
         },
         deleteQuestionsVideo(store, payload) {
-            return deleteAxios(`${environment.testAPI + QUESTION}/deleteFromVideo?question_id=${payload}`)
+            return deleteAxios(`${environment.testAPI + QUESTION}/deleteFromInterview?question_id=${payload}`)
                 .then(() => store.commit('setSnackbars', 'Успешно удалено'))
                 .catch(e => store.commit('setSnackbars', e.message))
         },

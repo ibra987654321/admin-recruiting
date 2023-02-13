@@ -8,17 +8,17 @@
       <v-container>
         <v-row>
           <v-col
-            v-for="(item, idx) in $props.editBlock"
-            :key="idx"
-            cols="12"
-            :md="item.col"
+              v-for="(item, idx) in $props.editBlock"
+              :key="idx"
+              cols="12"
+              :md="item.col"
           >
             <v-text-field
-              v-if="item.type === 'input'"
-              v-model="editedItem[item.value]"
-              :label="item.label"
-              outlined
-              dense
+                v-if="item.type === 'input'"
+                v-model="editedItem[item.value]"
+                :label="item.label"
+                outlined
+                dense
             ></v-text-field>
             <v-text-field
                 v-if="item.type === 'input-number'"
@@ -29,19 +29,19 @@
                 dense
             ></v-text-field>
             <v-checkbox
-              v-if="item.type === 'checkbox'"
-              v-model="editedItem[item.value]"
-              :label="item.label"
+                v-if="item.type === 'checkbox'"
+                v-model="editedItem[item.value]"
+                :label="item.label"
             ></v-checkbox>
             <v-select
-              v-if="item.type === 'select'"
-              v-model="editedItem[item.value]"
-              :label="item.label"
-              :item-text="item.params.text"
-              :item-value="item.params.value"
-              outlined
-              dense
-              :items="item.data"
+                v-if="item.type === 'select'"
+                v-model="editedItem[item.value]"
+                :label="item.label"
+                :item-text="item.params.text"
+                :item-value="item.params.value"
+                outlined
+                dense
+                :items="item.data"
             ></v-select>
             <v-select
                 v-if="item.type === 'select-add'"
@@ -67,29 +67,29 @@
                 :rules="[v => v.length <= item.rules || `Максимум ${item.rules} символов`]"
             ></v-textarea>
             <v-menu
-              v-if="item.type === 'date'"
-              :key="'menu' + idx"
-              v-model="date['menu' + idx]"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              class="mx-auto"
+                v-if="item.type === 'date'"
+                :key="'menu' + idx"
+                v-model="date['menu' + idx]"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                class="mx-auto"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="editedItem[item.value]"
-                  :label="item.label"
-                  outlined
-                  dense
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
+                    v-model="editedItem[item.value]"
+                    :label="item.label"
+                    outlined
+                    dense
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="editedItem[item.value]"
-                @input="date['menu' + idx] = false"
+                  v-model="editedItem[item.value]"
+                  @input="date['menu' + idx] = false"
               ></v-date-picker>
             </v-menu>
           </v-col>
@@ -130,8 +130,9 @@
 
 <script>
 import tableInTable from "@/components/tables/TableInTable";
+
 export default {
-  name: 'useDialogContent',
+  name: "dialogContent",
   components: {
     tableInTable
   },

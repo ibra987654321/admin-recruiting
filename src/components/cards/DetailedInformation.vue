@@ -6,17 +6,24 @@
 
     <v-card-text>
       <div>
-        <div>
-          {{ data.candidateType.city }}
+        <div class="d-flex">
+          Город: <div class="font-weight-bold">{{ data.candidateType.city }}</div>
         </div>
-        <div>
-          {{ data.candidateType.department.name }}
+        <div v-if="data.candidateType.teamType.toEducate" class="d-flex">
+          Отделение: <div class="font-weight-bold">{{ data.candidateType.teamType.department.name }}</div>
         </div>
-        <div>
-          {{ data.schedule }}
+        <div class="d-flex">
+          График работы: <div class="font-weight-bold">{{ data.schedule }}</div>
         </div>
       </div>
-      <setsDialog/>
+      <div class="d-flex align-center">
+        <div v-if="$store.state.candidate.profileData.status !== 'Приглашен'">
+          <setsDialog v-if="data.candidateType.teamType.toEducate"/>
+          <setInviteCandidate v-else/>
+        </div>
+        <useModal class="ml-3 mt-3" btn-title="Отклонить" @ok="reject()"/>
+      </div>
+
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
@@ -83,11 +90,15 @@
 <script>
 import useDialogContent from "@/components/dialogs/useDialogContent";
 import setsDialog from "@/components/dialogs/SetsDialog";
+import setInviteCandidate from "@/components/dialogs/setInviteCandidate";
+import useModal from "@/components/dialogs/useModal";
 export default {
   name: "DetailedInformation",
   components: {
     useDialogContent,
     setsDialog,
+    setInviteCandidate,
+    useModal,
   },
   data: () => ({
     dialog: false,
@@ -110,7 +121,16 @@ export default {
             this.$store.state.candidate.detailedData.comment = e.comment
             this.dialog = false
           })
-          .catch(e => this.$store.commit('setSnackbars', 'Что то пошло не так'))
+          .catch(() => this.$store.commit('setSnackbars', 'Что то пошло не так'))
+
+    },
+    async reject() {
+
+      await this.$store.dispatch('putStatusCandidate', {
+        "status": 'Отклонить',
+        "invitationDate": null,
+        "gender": null
+      })
 
     }
   }

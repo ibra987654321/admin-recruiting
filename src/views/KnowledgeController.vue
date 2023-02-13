@@ -1,7 +1,7 @@
 <template>
 <div>
   <CRUDTable
-      title="Создание навыков "
+      :title="`Навыки вакансии '${$store.state.candidateType.find(i => i.id === $store.state.selectedCandidateType).candidateType}'` "
       :headers="dataForKnowledge.headers"
       :show-table-in-table="true"
       :show-child-table-in-table="true"
@@ -45,6 +45,9 @@ export default {
           { text: 'Действия ', value: 'actions' },
         ],
         editedItem: {
+          knowledgeName: '',
+        },
+        defaultItem: {
           knowledgeName: '',
         },
         showToEdit: [

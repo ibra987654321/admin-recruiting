@@ -1,6 +1,6 @@
 import {deleteAxios, getAxios, getToken, postAxios} from "@/helpers/helpers";
 import {environment} from "@/environments/environment";
-import {HOOLIGAN, VIDEO} from "@/helpers/endPoints";
+import {ESSAY, HOOLIGAN, VIDEO} from "@/helpers/endPoints";
 import axios from "axios";
 
 export  default  {
@@ -19,6 +19,11 @@ export  default  {
         },
         postVideoComment(store, payload) {
             postAxios(`${environment.testAPI + VIDEO}/comment/${payload.id}?comment=${payload.comment}`)
+                .then(() => store.commit('setSnackbars', 'Комментарий успешно добавлен'))
+                .catch(e => store.commit('setSnackbars', e.message))
+        },
+        postEssayComment(store, payload) {
+            postAxios(`${environment.testAPI + ESSAY}/comment/${payload.id}?comment=${payload.comment}`)
                 .then(() => store.commit('setSnackbars', 'Комментарий успешно добавлен'))
                 .catch(e => store.commit('setSnackbars', e.message))
         },

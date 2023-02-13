@@ -2,7 +2,7 @@
   <div>
     <tableInTable
       :show-child="false"
-      :data-table="data"
+      :data-table="videoResult"
       :param-in-table="head"
       :filters="filters"
       :video-param="params"
@@ -13,6 +13,9 @@
 <script>
 import tableInTable from "@/components/tables/TableInTable";
 export default {
+  props: {
+    videoResult: Array,
+  },
   name: "VideoResult",
   components: {
     tableInTable

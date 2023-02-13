@@ -29,10 +29,10 @@
                 v-bind="attrs"
                 v-on="on"
             >
-             Добавить
+              Добавить
             </v-btn>
           </template>
-          <useDialogContent
+          <dialogContent
               :show="$props.showTableInTable"
               :show-child-table="showChildTableInTable"
               :title="formTitle"
@@ -60,7 +60,7 @@
       </v-toolbar>
     </template>
     <template v-if="dateFilter" v-slot:[`item.${$props.filters.date}`]="{item}">
-        {{item[$props.filters.date] | date}}
+      {{item[$props.filters.date] | date}}
     </template>
     <template v-if="checkFilter" v-for="(check, idx) in $props.filters.checkbox"  v-slot:[`item.${check}`]="{item}">
       <v-checkbox
@@ -70,11 +70,11 @@
     </template>
     <template v-slot:item.detail="{item}">
       <v-btn
-      color="primary"
-      small
-      outlined
-      rounded
-      @click="$router.push('/candidateDetail/' + item.id)"
+          color="primary"
+          small
+          outlined
+          rounded
+          @click="$router.push('/candidateDetail/' + item.id)"
       >
         Подробнее
       </v-btn>
@@ -113,12 +113,12 @@
 </template>
 
 <script>
-import useDialogContent from "@/components/dialogs/useDialogContent";
+import dialogContent from "@/components/tables/tableWithSelectObject/dialogContent";
 export default {
+  name: "tableSelectObject",
   components: {
-    useDialogContent
+    dialogContent
   },
-  name: "CRUDTable",
   props: {
     title: String,
     headers: Array,

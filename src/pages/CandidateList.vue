@@ -20,11 +20,10 @@
           Не завершившие
         </v-tab>
       </v-tabs>
-
       <v-tabs-items v-model="tab">
         <v-tab-item value="tab-1">
           <CRUDTable
-              title="Успешно завершившие"
+              :title="`Для вакансии '${$store.state.candidateType.find(i => i.id === $store.state.selectedCandidateType).candidateType}'` "
               :filters="filter"
               :headers="dataForCandidateList.headers"
               :get-dispatch="'getCandidateList'"
@@ -32,7 +31,7 @@
         </v-tab-item>
         <v-tab-item value="tab-2">
           <CRUDTable
-              title="Не сдавшие тест"
+              :title="`Для вакансии '${$store.state.candidateType.find(i => i.id === $store.state.selectedCandidateType).candidateType}'` "
               :filters="filter"
               :headers="dataForCandidateList.headers"
               :get-dispatch="'getFailedCandidates'"
@@ -40,7 +39,7 @@
         </v-tab-item>
         <v-tab-item value="tab-3">
           <CRUDTable
-              title="Не завершившие"
+              :title="`Для вакансии '${$store.state.candidateType.find(i => i.id === $store.state.selectedCandidateType).candidateType}'` "
               :filters="filter"
               :headers="dataForCandidateList.headers"
               :get-dispatch="'getCandidatesOnVideoByType'"
@@ -65,6 +64,7 @@ export default {
       headers: [
         { text: 'Имя', value: 'name' },
         { text: 'Дата регистрации', value: 'registration_Date' },
+        { text: 'Статус', value: 'status' },
         { text: 'Действия ', value: 'detail' },
       ],
     },

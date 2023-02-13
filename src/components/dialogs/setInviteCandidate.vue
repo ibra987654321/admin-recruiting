@@ -21,20 +21,6 @@
         <v-card-text class="pt-8">
           <v-row>
             <v-col cols="12">
-              <v-select
-                v-model="gender"
-                :items="['Мужчина', 'Женщина']"
-                outlined
-                dense
-                label="Пол"
-                hide-details
-                :error-messages="genderErrors"
-                @change="$v.gender.$touch()"
-                @blur="$v.gender.$touch()"
-              >
-              </v-select>
-            </v-col>
-            <v-col cols="12">
               <v-datetime-picker
                   v-model="date"
                   label="Дата"
@@ -93,20 +79,19 @@
 
 <script>
 import DateTimePicker from "@/components/dialogs/DateTimePicker";
-import {required} from "vuelidate/lib/validators"
+import {required} from "vuelidate/lib/validators";
+
 export default {
-  name: "SetsDialog",
+  name: "setInviteCandidate",
   components: {
     DateTimePicker,
   },
   validations: {
-    gender : {required},
-      date: {required}
+    date: {required}
   },
   data:() => ({
-    dialog: false,
-    gender: '',
     date: '',
+    dialog: false,
     dateTimeOptions: {
       format: '24hr',
     },
@@ -124,12 +109,6 @@ export default {
     }, 300)
   },
   computed: {
-    genderErrors () {
-      const errors = []
-      if (!this.$v.gender.$dirty) return errors
-      !this.$v.gender.required && errors.push('Поле не должно быть пустым.')
-      return errors
-    },
     dateErrors () {
       const errors = []
       if (!this.$v.date.$dirty) return errors
@@ -139,21 +118,17 @@ export default {
   },
   methods: {
     async setInvite(e) {
-      if (this.$v.$invalid) {
-        this.$v.$touch();
-        return;
-      }else if (this.date === '') {
+      if (this.date === '') {
         this.$store.commit('setSnackbars', 'Выберите дату')
         return;
       }
       const data = {
         "status": 'Пригласить',
         "invitationDate": this.date.toISOString(),
-        "gender": this.gender
+        "gender": null
       }
       await this.$store.dispatch('putStatusCandidate', data)
       this.dialog = false
-
     },
   }
 }

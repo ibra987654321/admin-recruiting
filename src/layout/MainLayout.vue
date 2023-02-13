@@ -36,14 +36,10 @@
           </v-list-item>
         </v-list>
       </v-menu>
-
-<!--      <v-btn @click="drawer = !drawer">-->
-<!--        <v-icon>mdi-pan</v-icon>-->
-<!--      </v-btn>-->
       <v-spacer></v-spacer>
       <v-responsive max-width="260" class="mr-4">
         <v-select
-            v-model="select"
+            v-model="$store.state.selectedCandidateType"
             :items="$store.state.candidateType"
             label="Типы кандидатов"
             item-text="candidateType"
@@ -88,13 +84,16 @@ export default {
     selectList: '',
     select: 7,
     links: [
-      {label:'Вакансии', child: [{label:'Отделение', to: '/vacancy'}]},
+      {label:'Вакансии', child: [
+          {label:'Подразделения', to: '/vacancy'},
+          {label:'Вакансии ', to: '/candidateType'},
+          {label:'Группы ', to: '/teamtype'},
+        ]},
       {label:'Вопросы', child: [{label:'Список вопросов', to: '/question'}]},
       {label:'Навыки', child: [{label:'Навыки', to: '/knowledge'}]},
       {label:'Сообщения', child: [{label:'Сообщения', to: '/message'}]},
       {label:'Кандидаты', child: [
           {label:'Хулиганы', to: '/candidate'},
-          {label:'Тип кандидата ', to: '/candidateType'},
           {label:'Список кандидатов ', to: '/'}
         ]
       },
@@ -103,10 +102,10 @@ export default {
   }),
   created() {
     this.$store.dispatch('getCandidateTypes')
-    this.$store.state.candidateType_id = this.select
+    this.$store.state.candidateType_id = this.$store.state.selectedCandidateType
   },
   watch: {
-    select(val) {
+    '$store.state.selectedCandidateType'(val) {
       this.$store.state.candidateType_id = val
       this.$store.dispatch('getQuestionsTest')
     }

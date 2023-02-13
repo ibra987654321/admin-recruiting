@@ -17,6 +17,7 @@ export default {
     tableInTable
   },
   data:() => ({
+    data: [],
     head: {
       title: 'Результаты тестов',
       headers: [
@@ -43,11 +44,11 @@ export default {
       checkbox: ['correct']
     }
   }),
-  computed: {
-    data() {
-      return this.$store.state.candidate.testResultData
-    }
-  }
+  mounted() {
+    setTimeout(() => {
+      this.data = this.$store.state.detailData.tests
+    }, 300)
+  },
 }
 </script>
 

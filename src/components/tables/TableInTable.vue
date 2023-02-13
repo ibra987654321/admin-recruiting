@@ -219,6 +219,7 @@ export default {
     idForSave: '',
     editedIndex: -1,
     editedItem: {},
+    defaultItem: {},
     tableData: [],
     idForChildSave: 0,
     date: {
@@ -244,6 +245,7 @@ export default {
     init() {
       this.idForSave = this.$props.id
       this.editedItem = this.$props.paramInTable.editedItem
+      this.defaultItem = this.$props.paramInTable.defaultItem
       this.data = this.$props.dataTable
       return ''
     },
@@ -317,8 +319,10 @@ export default {
           if (!this.$props.videoParam) {
             Object.assign(this.data[this.editedIndex], this.editedItem)
             this.$store.dispatch(this.$props.paramInTable.actions.putDispatch, Object.assign(this.data[this.editedIndex], this.editedItem))
+                .then(() => this.close())
           } else {
             this.$store.dispatch(this.$props.paramInTable.actions.postDispatch,this.editedItem)
+                .then(() => this.close())
           }
         } else {
           const data = {
@@ -328,11 +332,11 @@ export default {
           this.$store.dispatch(this.$props.paramInTable.actions.postDispatch, data)
               .then(r => {
                 this.data.push(r)
+                this.close()
               })
 
 
       }
-      this.close()
     },
   }
 }

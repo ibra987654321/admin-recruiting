@@ -12,7 +12,7 @@
       </v-tab>
 
       <v-tab href="#tab-2">
-        <v-btn color="white" >Вопросы для видео</v-btn>
+        <v-btn color="white" >Вопросы для интервью</v-btn>
       </v-tab>
     </v-tabs>
 
@@ -21,7 +21,7 @@
           value="tab-1"
       >
         <CRUDTable
-            title="Вопросы для тестов"
+            :title="`Вопросы вакансии '${$store.state.candidateType.find(i => i.id === $store.state.selectedCandidateType).candidateType}'` "
             :headers="dataForTest.headers"
             :show-table-in-table="true"
             :show-to-edit="dataForTest.showToEdit"
@@ -38,7 +38,7 @@
           value="tab-2"
       >
         <CRUDTable
-            title="Вопросы для видео"
+            :title="`Вопросы вакансии '${$store.state.candidateType.find(i => i.id === $store.state.selectedCandidateType).candidateType}'` "
             :headers="dataForVideo.headers"
             :show-table-in-table="false"
             :show-to-edit="dataForVideo.showToEdit"
@@ -90,6 +90,11 @@ import CRUDTable from "@/components/tables/CRUDTable";
             { text: 'Действия ', value: 'actions' },
           ],
           editedItem: {
+            content: '',
+            correct: '',
+            key: ''
+          },
+          defaultItem: {
             content: '',
             correct: '',
             key: ''

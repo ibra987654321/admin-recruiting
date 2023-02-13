@@ -32,6 +32,7 @@ export default new Vuex.Store({
       snackbar: false,
       text: ``,
     },
+    detailData: {},
     selectLogType: 'level',
     itemsLogType: [
       {text: 'Вход/Выход', value: 'sign-in'},
@@ -44,6 +45,7 @@ export default new Vuex.Store({
       {text: 'Отделение', value: 'department'},
       {text: 'Тип вакансии', value: 'candidatetype'},
     ],
+    selectedCandidateType: 7,
     candidateType: [],
     candidateType_id: '',
   },

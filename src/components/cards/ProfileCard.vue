@@ -51,14 +51,6 @@
         :text="data.birthday"
         label="Дата рождения"
       />
-
-      <v-divider inset></v-divider>
-
-      <itemList
-          icon="mdi-flag"
-          :text="data.citizenship"
-          label="Гражданство"
-      />
       <v-divider inset></v-divider>
 
       <itemList

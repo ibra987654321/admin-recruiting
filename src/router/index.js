@@ -27,6 +27,12 @@ const routes = [
     component: () => import('../views/VacancyController.vue')
   },
   {
+    path: '/teamtype',
+    name: 'teamtype',
+    meta: {layout: 'main', auth: true, role: ['ROLE_APP_Recruiting_Admin']},
+    component: () => import('../views/GroupController.vue')
+  },
+  {
     path: '/candidate',
     name: 'candidate',
     meta: {layout: 'main', auth: true, role: ['ROLE_APP_Recruiting_Admin']},
