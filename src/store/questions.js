@@ -17,7 +17,8 @@ export default {
         postQuestionsTest(store, payload) {
             const data = {
                 questionText: payload.questionText,
-                candidateType_id: store.rootState.candidateType_id
+                candidateType_id: store.rootState.candidateType_id,
+                key: payload.key,
             }
             return postAxios(`${environment.testAPI + QUESTION}/saveToTest`, data)
                 .then((r) => {
@@ -30,7 +31,7 @@ export default {
             const data = {
                 questionText: payload.questionText,
                 candidateType_id: store.rootState.candidateType_id,
-                seconds: Number(payload.milliseconds)
+                seconds: Number(payload.milliseconds),
             }
             return postAxios(`${environment.testAPI + QUESTION}/saveToInterview`, data)
                 .then((r) => {

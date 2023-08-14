@@ -22,8 +22,8 @@
           <setInviteCandidate v-else/>
         </div>
         <useModal class="ml-3 mt-3" btn-title="Отклонить" @ok="reject()"/>
+        <setArchive :archive="$store.state.candidate.profileData.archive"/>
       </div>
-
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
@@ -91,6 +91,7 @@
 import useDialogContent from "@/components/dialogs/useDialogContent";
 import setsDialog from "@/components/dialogs/SetsDialog";
 import setInviteCandidate from "@/components/dialogs/setInviteCandidate";
+import setArchive from "@/components/dialogs/setArchive";
 import useModal from "@/components/dialogs/useModal";
 export default {
   name: "DetailedInformation",
@@ -99,6 +100,7 @@ export default {
     setsDialog,
     setInviteCandidate,
     useModal,
+    setArchive
   },
   data: () => ({
     dialog: false,

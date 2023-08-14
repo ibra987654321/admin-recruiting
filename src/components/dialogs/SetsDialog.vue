@@ -72,6 +72,14 @@
                 </template>
               </v-datetime-picker>
             </v-col>
+            <v-col>
+              <v-text-field
+                  v-model="location"
+                  outlined
+                  dense
+                  label="Адрес"
+              ></v-text-field>
+            </v-col>
           </v-row>
         </v-card-text>
         <v-card-actions class="justify-end">
@@ -94,6 +102,7 @@
 <script>
 import DateTimePicker from "@/components/dialogs/DateTimePicker";
 import {required} from "vuelidate/lib/validators"
+import moment from "moment";
 export default {
   name: "SetsDialog",
   components: {
@@ -105,6 +114,7 @@ export default {
   },
   data:() => ({
     dialog: false,
+    location: '',
     gender: '',
     date: '',
     dateTimeOptions: {
@@ -148,8 +158,9 @@ export default {
       }
       const data = {
         "status": 'Пригласить',
-        "invitationDate": this.date.toISOString(),
-        "gender": this.gender
+        "invitationDate": moment(this.date.toISOString()).format().slice(0, 19),
+        "gender": this.gender,
+        "invitationLocation": this.location
       }
       await this.$store.dispatch('putStatusCandidate', data)
       this.dialog = false

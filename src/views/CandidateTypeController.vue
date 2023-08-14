@@ -24,7 +24,7 @@ export default {
   },
   data:() => ({
     filters: {
-      checkbox: ['internal', 'active']
+      checkbox: ['internal', 'active', 'schedule']
     },
     candidateType: {
       headers: [
@@ -32,6 +32,7 @@ export default {
         { text: 'Внутренний', value: 'internal' },
         { text: 'Город', value: 'city' },
         { text: 'Активные', value: 'active' },
+        { text: 'График', value: 'schedule' },
         { text: 'Действия ', value: 'actions' },
       ],
       editedItem: {
@@ -39,13 +40,15 @@ export default {
         internal: Boolean,
         active: Boolean,
         city: '',
-        teamTypeId: Number
+        teamTypeId: Number,
+        schedule: Boolean
       },
       showToEdit: [
         { value: 'candidateType', label: 'Наименование', type: 'input', col: '12' },
         { value: 'city', label: 'Город', type: 'input', col: '6' },
         { value: 'internal', label: 'Внутренний', type: 'checkbox', col: '6' },
         { value: 'active', label: 'Активные', type: 'checkbox', col: '6' },
+        { value: 'schedule', label: 'График', type: 'checkbox', col: '6' },
       ],
     },
     selectData: []

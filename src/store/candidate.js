@@ -58,6 +58,7 @@ export default  {
                 active: payload.active,
                 teamTypeId: payload.teamTypeId,
                 city: payload.city,
+                schedule: payload.schedule,
             }
             return postAxios(`${environment.testAPI + CANDIDATE_TYPE}/save`, data)
                 .then((r) => {
@@ -73,7 +74,8 @@ export default  {
                 active: payload.active,
                 departmentId: payload.departmentId,
                 city: payload.city,
-                teamType: payload.teamType
+                teamType: payload.teamType,
+                schedule: payload.schedule
             }
             return putAxios(`${environment.testAPI + CANDIDATE_TYPE}/update/${payload.id}`, data)
                 .then(() => store.commit('setSnackbars', 'Успешно изменено'))
@@ -162,6 +164,7 @@ export default  {
                     store.state.profileData.address = r.address
                     store.state.profileData.gender = r.gender
                     store.state.profileData.status = r.status
+                    store.state.profileData.archive = r.archive
                     store.state.secondaryData.experience = r.experience
                     store.state.secondaryData.education = r.education
                     store.state.secondaryData.questionnaire = r.questionnaire
@@ -192,6 +195,11 @@ export default  {
                 .then(() => store.commit('setSnackbars', 'Успешно добавлено'))
                 .catch(e => store.commit('setSnackbars', e.message))
         },
+        setCandidateToArchive(store, payload) {
+            return putAxios(`${environment.testAPI + CANDIDATE}/setArchive/${store.state.detailedData.id}?isArchive=${payload.isArchive}`)
+                .then(() => store.commit('setSnackbars', 'Успешно добавлено'))
+                .catch(e => store.commit('setSnackbars', e.message))
+        }
         // END  Detail of candidate ---------
 
     }
